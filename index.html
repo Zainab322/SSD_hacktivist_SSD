@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Software Design — Hacktivist Profile</title>
+    <title>Secure Software Design — Case Study Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base Styles */
@@ -470,14 +470,10 @@
         <header>
             <div class="logo">OB</div>
             <div class="header-content">
-                <h1>Secure Software Design — Hacktivist Profile</h1>
+                <h1>Secure Software Design — Case Study Profile</h1>
                 <p class="lead">A fictitious campaign of digital protest targeting a multinational polluter.</p>
             </div>
         </header>
-
-        <div class="attacker-declaration">
-            Our attacker type is: Hacktivists
-        </div>
 
         <div class="grid">
             <!-- Main column -->
@@ -580,8 +576,7 @@
                         <h4>Quick Facts</h4>
                     </div>
                     <div class="meta">
-                        <div class="pill">Attacker type: Hacktivists</div>
-                        <div class="pill">Campaign name: Operation Beacon</div>
+                        <div class="pill">Campaign name: SSD Attackers Case Study</div>
                         <div class="pill">Primary aim: Public accountability</div>
                     </div>
 
@@ -599,9 +594,7 @@
 
                     <hr />
 
-                    <h4>Class Use</h4>
-                    <p class="muted">Open this file in class and narrate the script. All artifacts are mock text only—no vulnerabilities or malware provided.</p>
-                </div>
+                    </div>
 
                 <div class="card">
                     <h4>Narration Script (transcript)</h4>
@@ -613,7 +606,12 @@
     </div>
 
     <script>
-        const script = `We call this fictional campaign "Operation Beacon." Our attacker type is hacktivists—activists who use cyber methods to expose perceived wrongdoing. Their motive: force accountability for environmental damage by a fictional manufacturer. Recon began publicly: they scraped investor documents, mapped PR contacts, and watched corporate update cycles. Delivery used social engineering and a crafted “board memo” lure that convinced a low-privilege CMS user to click a benign link. Actions were symbolic, not destructive: a homepage defacement published the manifesto, a mocked “internal memo” was posted to draw attention, and a simulated traffic surge amplified visibility. Impact was reputational and immediate media and community pressure created a short-term crisis the company had to address. The page's artifacts show protest language, a staged memo, and a phishing-style screenshot. The timeline demonstrates Recon → Initial Access → Actions. Defenders should focus on email/auth hardening, CMS least privilege and MFA, and WAF/rate-limiting, plus a clear incident-response and public communication playbook.`;
+        const script = `Welcome to my case study presentation. This page represents a simulated digital protest campaign aimed at raising public pressure against a fictional company called ApexChem. The scenario explores how an ideologically motivated group, without seeking financial gain, attempts to force accountability by disrupting the organization’s online presence.
+At the top, you can see the intent: the group believes ApexChem is withholding environmental information. Their actions revolve around drawing attention, using webpage alterations, spreading mock internal memos, and releasing symbolic high traffic bursts to create instability on public facing pages.
+The artifacts on the page help illustrate the campaign. The first is a campaign statement, similar to what activist movements publish when calling for environmental transparency. The second is a fabricated internal memo, demonstrating how ‘leaks’ can be used to generate public concern. The third is a redirect style email mockup, showing how messaging can steer audiences toward specific narratives.
+The timeline shows how the operation unfolds: reconnaissance of public pages, delivery through traffic floods and message distribution, and finally public impact through reputation damage and amplified scrutiny.
+The page ends with realistic countermeasures, focusing on resilience, monitoring, and communication, key defenses against this type of digital pressure campaign.
+`;
         document.getElementById('scriptText').textContent = script;
 
         let synth = window.speechSynthesis;
