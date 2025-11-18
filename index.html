@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Software Design — Hacktivist Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #1a5276;
+            --primary-dark: #154360;
+            --primary-light: #2e86c1;
+            --secondary: #27ae60;
+            --secondary-dark: #229954;
+            --accent: #e74c3c;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text: #2c3e50;
+            --text-muted: #566573;
+            --border: #d5dbdb;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --success: #27ae60;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(26, 82, 118, 0.3);
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .lead {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Content Styles */
+        .content-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .content-section strong {
+            color: var(--primary-dark);
+        }
+
+        /* Artifacts */
+        .artifacts-container {
+            margin-top: 1.5rem;
+        }
+
+        .artifact {
+            background: rgba(241, 248, 253, 0.7);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+            transition: all 0.2s ease;
+        }
+
+        .artifact:hover {
+            background: rgba(241, 248, 253, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .artifact h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .artifact-icon {
+            color: var(--secondary);
+        }
+
+        .manifesto {
+            line-height: 1.5;
+            color: var(--text);
+            padding: 0.5rem 0;
+            font-style: italic;
+        }
+
+        .ransom {
+            font-family: 'Courier New', monospace;
+            background: rgba(241, 248, 253, 0.9);
+            padding: 1rem;
+            border-radius: 6px;
+            color: var(--text);
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .phish {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .phish .screenshot {
+            width: 90px;
+            height: 60px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #e8f4fc, #d4e6f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 11px;
+            width: 2px;
+            background: var(--border);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step .dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 2px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 3;
+        }
+
+        .step .dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--secondary);
+        }
+
+        .step-content {
+            flex: 1;
+            padding-bottom: 0.5rem;
+        }
+
+        .step-content strong {
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content .muted {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Meta Information */
+        .meta {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .pill {
+            background: rgba(39, 174, 96, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            color: var(--secondary-dark);
+            font-size: 0.85rem;
+            border: 1px solid rgba(39, 174, 96, 0.2);
+        }
+
+        /* Defenses */
+        .defenses {
+            background: rgba(241, 248, 253, 0.7);
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-top: 1rem;
+        }
+
+        .defenses ol {
+            margin: 0.5rem 0 0 1.5rem;
+            color: var(--text);
+        }
+
+        .defenses li {
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: rgba(26, 82, 118, 0.05);
+            border-color: var(--primary-light);
+        }
+
+        button.primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        button.primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        button.danger {
+            background: rgba(231, 76, 60, 0.1);
+            border-color: rgba(231, 76, 60, 0.3);
+            color: var(--danger);
+        }
+
+        button.danger:hover {
+            background: rgba(231, 76, 60, 0.2);
+        }
+
+        /* Horizontal Rule */
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--border);
+            margin: 1.5rem 0;
+        }
+
+        /* Attacker Declaration */
+        .attacker-declaration {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(26, 82, 118, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            button {
+                flex: 1;
+                justify-content: center;
+            }
+            
+            .phish {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.25rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .meta {
+                flex-direction: column;
+            }
+            
+            .pill {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">OB</div>
+            <div class="header-content">
+                <h1>Secure Software Design — Hacktivist Profile</h1>
+                <p class="lead">A fictitious campaign of digital protest targeting a multinational polluter.</p>
+            </div>
+        </header>
+
+        <div class="attacker-declaration">
+            Our attacker type is: Hacktivists
+        </div>
+
+        <div class="grid">
+            <!-- Main column -->
+            <main class="card">
+                <div class="section-title">
+                    <div>
+                        <h3>Attacker Overview</h3>
+                        <div class="section-subtitle">motive • tactics • target • impact</div>
+                    </div>
+                    <div class="controls">
+                        <button id="speakBtn" class="primary" title="Narrate script">
+                            <i class="fas fa-microphone"></i>
+                            Play Narration
+                        </button>
+                        <button id="stopBtn" class="danger">
+                            <i class="fas fa-stop"></i>
+                            Stop
+                        </button>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <p><strong>Motive (why):</strong> Protest environmental harm by a global manufacturing firm; force public disclosure of practices and halt operations through reputational pressure.</p>
+                    <p><strong>Tactics (how):</strong> Website defacement, data "leak" mock, distributed denial-of-service (DDoS) bragging, social media banner/manifesto distribution.</p>
+                    <p><strong>Target (who/what):</strong> Public corporate website, investor-facing dashboards, and public relations channels of "ApexChem" .</p>
+                    <p><strong>Impact (so what):</strong> Temporary site outages, brand damage from leaked internal memo mock-ups, and amplified media scrutiny.</p>
+                </div>
+
+                <hr />
+
+                <h4>Concrete Artifacts (mockups)</h4>
+                <div class="artifacts-container">
+                    <div class="artifact">
+                        <h4>
+                            <i class="fas fa-scroll artifact-icon"></i>
+                            1) Protest Manifesto (mock)
+                        </h4>
+                        <div class="manifesto">
+                            <strong>Operation Beacon — FOR THE RIVERS</strong><br>
+                            We reveal the footprints of profit and pollution. ApexChem's "green" claims are a lie. We demand an immediate third-party audit and cleanup fund.
+                        </div>
+                    </div>
+
+                    <div class="artifact">
+                        <h4>
+                            <i class="fas fa-file-alt artifact-icon"></i>
+                            2) Leaked Internal Memo — "Investor Brief (mock)"
+                        </h4>
+                        <div class="ransom">
+                            <span style="color:#1a5276">To: Board</span> | <span style="color:#566573">Confidential</span><br>
+                            Subject: <em>Supply changes &amp; contingency</em><br>
+                            Shipping reroute to avoid inspection. Flagged waste shipments as "byproduct". 
+                        </div>
+                    </div>
+
+                    <div class="artifact">
+                        <h4>
+                            <i class="fas fa-envelope artifact-icon"></i>
+                            3) Social Lure / Phishing Screenshot (mock)
+                        </h4>
+                        <div class="phish">
+                            <div class="screenshot">Fake Email</div>
+                            <div class="muted">Subject: Immediate: Board meeting notes (PDF attached) — link leads to a protest landing page, not malware. (Mock screenshot.)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <h4>Timeline — Recon → Delivery/Initial Access → Actions/Impact</h4>
+                <div class="timeline">
+                    <div class="step">
+                        <div class="dot"></div>
+                        <div class="step-content">
+                            <strong>Recon (Weeks 1–2)</strong>
+                            <div class="muted">Public scraping of investor pages; mapping user emails; scanning for CMS misconfigurations (no exploit details shown).</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="dot"></div>
+                        <div class="step-content">
+                            <strong>Delivery / Initial Access (Week 3)</strong>
+                            <div class="muted">Phishing campaign to PR inboxes; social engineering leads to a low-privilege CMS user clicking a crafted link (mock scenario).</div>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="dot"></div>
+                        <div class="step-content">
+                            <strong>Actions / Impact (Week 4)</strong>
+                            <div class="muted">Defacement of homepage with manifesto, posting of mock internal memo, temporary DDoS-like high traffic (simulated). Public attention rose for 48 hours.</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Sidebar -->
+            <aside>
+                <div class="card">
+                    <div class="section-title">
+                        <h4>Quick Facts</h4>
+                    </div>
+                    <div class="meta">
+                        <div class="pill">Attacker type: Hacktivists</div>
+                        <div class="pill">Campaign name: Operation Beacon</div>
+                        <div class="pill">Primary aim: Public accountability</div>
+                    </div>
+
+                    <hr />
+
+                    <h4>Defender's Countermeasures</h4>
+                    <div class="defenses">
+                        <ol>
+                            <li>Strict email filtering + DMARC/DKIM and phishing training for PR teams.</li>
+                            <li>Harden CMS accounts with MFA, least privilege, and strong patching.</li>
+                            <li>Public-facing rate limits & web application firewall to mitigate traffic spikes.</li>
+                            <li>Incident response playbook: rapid takedown, transparent comms, and forensic logging.</li>
+                        </ol>
+                    </div>
+
+                    <hr />
+
+                    <h4>Class Use</h4>
+                    <p class="muted">Open this file in class and narrate the script. All artifacts are mock text only—no vulnerabilities or malware provided.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Narration Script (transcript)</h4>
+                    <p id="scriptText" class="muted" style="white-space:pre-line;font-size:0.95rem;margin-top:8px"></p>
+                </div>
+            </aside>
+        </div>
+
+    </div>
+
+    <script>
+        const script = `We call this fictional campaign "Operation Beacon." Our attacker type is hacktivists—activists who use cyber methods to expose perceived wrongdoing. Their motive: force accountability for environmental damage by a fictional manufacturer. Recon began publicly: they scraped investor documents, mapped PR contacts, and watched corporate update cycles. Delivery used social engineering and a crafted “board memo” lure that convinced a low-privilege CMS user to click a benign link. Actions were symbolic, not destructive: a homepage defacement published the manifesto, a mocked “internal memo” was posted to draw attention, and a simulated traffic surge amplified visibility. Impact was reputational and immediate media and community pressure created a short-term crisis the company had to address. The page's artifacts show protest language, a staged memo, and a phishing-style screenshot. The timeline demonstrates Recon → Initial Access → Actions. Defenders should focus on email/auth hardening, CMS least privilege and MFA, and WAF/rate-limiting, plus a clear incident-response and public communication playbook.`;
+        document.getElementById('scriptText').textContent = script;
+
+        let synth = window.speechSynthesis;
+        let utter;
+        document.getElementById('speakBtn').addEventListener('click', () => {
+            if(synth.speaking) return;
+            utter = new SpeechSynthesisUtterance(script);
+            utter.rate = 1.0; 
+            utter.pitch = 1.0;
+            synth.speak(utter);
+        });
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            if(synth.speaking) synth.cancel();
+        });
+    </script>
+</body>
+</html>
